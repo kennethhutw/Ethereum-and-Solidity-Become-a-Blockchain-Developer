@@ -1,34 +1,49 @@
-pragma solidity ^0.4.0;
+// SPDX-License-Identifier: GPL-3.0
+pragma solidity >=0.4.0 <0.9.0;
 
-contract Variables{
-   int firstSigned; //256 bits
+contract VariableExample{
+   int public firstSigned; //256 bits
    
-   int8 first8Signed = -128;
+   int8 public first8Signed = -128;
    
-   uint firstUnsigned;
-   uint8 first8Unsigned = 255;
+   uint public firstUnsigned;
+   uint8 public first8Unsigned = 255;
    
    
-   bool isTrue = true;
+   bool public isTrue = true;
    
-   address firstAddress; //20 bytes
+   address public owner; //20 bytes
    
    //transfer balance
+   constructor(){
+
+   }
    
    function Variables() public payable{
-       firstAddress = msg.sender;
+       owner = msg.sender;
    }
    
    function getAddress() public view returns(address) {
-       return firstAddress;
+       return address(this);
+   }
+
+    function getOwner() public view returns(address) {
+       return owner;
    }
    
    function getBalance() public view returns(uint) {
-       return firstAddress.balance;
+       return address(this).balance;
    }
    
-   function transferWei(address _address) public {
+   function transferWei(address payable _address) public {
        _address.transfer(1000000000000000000);
    }
+
+    fallback() external payable{
+       
+    }
+    receive() external payable{
+        
+     }
     
 }

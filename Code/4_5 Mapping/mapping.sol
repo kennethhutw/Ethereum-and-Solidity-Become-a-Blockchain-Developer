@@ -1,4 +1,7 @@
-pragma solidity ^0.4.0;
+// SPDX-License-Identifier: GPL-3.0
+
+pragma solidity >=0.7.0 <0.9.0;
+
 
 contract MappingExample {
     mapping(address => uint) public balances;
@@ -7,8 +10,8 @@ contract MappingExample {
         balances[msg.sender] = newBalance;
     }
 	
-	 function getBalance() constant public returns (uint){
-        return balance[msg.sender];
+	 function getBalance() view public returns (uint){
+        return balances[msg.sender];
     }
 }
 

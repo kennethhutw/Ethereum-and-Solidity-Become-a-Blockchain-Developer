@@ -1,24 +1,38 @@
-pragma solidity ^0.4.14;
+// SPDX-License-Identifier: GPL-3.0
+
+pragma solidity >=0.7.0 <0.9.0;
 
 contract StructExample {
     
     struct Contribution {
         uint amount;
-        address contributor;
+        address payable contributor;
     }
     
     Contribution[] contributions;
     
-    function contribute() public payable returns(uint id){
+    function contribute() public payable {
         contributions.push(
             Contribution({
                 amount: msg.value,
-                contributor: msg.sender
+                contributor: payable ( msg.sender)
             })
             );
     }
+
+     function getRefundInfo(uint id) public payable returns (Contribution memory){
+        
+        require(contributions.length > id );
+        
+        return  contributions[id];
+
+    }
+
+    function getLength() view public returns(uint){
+        return contributions.length;
+    }
     
-    function getRefund(uint id) public returns (bool){
+    function getRefund(uint id) public payable returns (bool){
         
         require(contributions.length > id && contributions[id].amount != 0);
         

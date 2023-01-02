@@ -1,5 +1,7 @@
-pragma solidity ^0.4.14;
-import "github.com/OpenZeppelin/zeppelin-solidity/contracts/math/SafeMath.sol";
+// SPDX-License-Identifier: GPL-3.0
+
+pragma solidity >=0.7.0 <0.9.0;
+import "@openzeppelin/contracts@4.7.2/utils/math/SafeMath.sol";
 
 contract LibraryExample{
 
@@ -10,9 +12,10 @@ contract LibraryExample{
    	require((accounts[msg.sender] + msg.value) >= accounts[msg.sender]);
 	 accounts[msg.sender] = accounts[msg.sender] .add(msg.value) ;
    }
-    function withdraw(uint money) public {
+
+   function withdraw(uint money) public {
         require(money <= accounts[msg.sender]);		
 		 accounts[msg.sender] =  accounts[msg.sender].sub(money);	
-		msg.sender.transfer(money);
-     }	
+		payable(msg.sender).transfer(money);
+  }	
 }

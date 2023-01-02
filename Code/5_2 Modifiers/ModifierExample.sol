@@ -1,20 +1,32 @@
-pragma solidity ^0.4.0;
+// SPDX-License-Identifier: GPL-3.0
+
+pragma solidity >=0.7.0 <0.9.0;
 
 contract ModifierExample {
 
-  address owner;
+  address private owner;
   string public name = "SimpleStorage";
   uint storedData;
   
-  function ModifierExample(){
-	owner = msg.sender
-  }
+   constructor() {
+  
+        owner = msg.sender; // 'msg.sender' is sender of current call, contract deployer for a constructor
+    }
   
   modifier ownerOnly(){
 	if(owner == msg.sender){
 		_;
 	} else{
-		throw;
+		revert();
+	}
+	
+  }
+
+  modifier notZero(){
+	if(storedData >0 ){
+		_;
+	} else{
+		revert();
 	}
 	
   }
@@ -23,7 +35,7 @@ contract ModifierExample {
     storedData = x;
   }
 
-  function get() public view returns (uint) {
+  function get() public view notZero returns (uint)  {
     return storedData;
   }
 }

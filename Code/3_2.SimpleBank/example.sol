@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: GPL-3.0
+pragma solidity >=0.4.0 <0.9.0;
+
 contract SimpleBank {
 	
 	mapping (address => uint) private balances;
@@ -6,7 +9,7 @@ contract SimpleBank {
 	
 	event DepositMade(address accountAddress, uint amount);
 	
-	function SimpleBank() public {
+	constructor()  {
 		owner = msg.sender;
 	}
 	 
@@ -16,7 +19,7 @@ contract SimpleBank {
 		
 		balances[msg.sender] += msg.value;
 	
-		DepositMade(msg.sender, msg.value);
+		emit DepositMade(msg.sender, msg.value);
 		
 		return balances[msg.sender];
     }
@@ -26,12 +29,12 @@ contract SimpleBank {
 		
 		balances[msg.sender] -= withdrawAmount;
 		
-		msg.sender.transfer(withdrawAmount);
+		payable(msg.sender).transfer(withdrawAmount);
 
         return balances[msg.sender];
     }
 	
-	function balance() constant public returns (uint) {
+	function balance() view public returns (uint) {
         return balances[msg.sender];
     }
 	
